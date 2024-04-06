@@ -14,9 +14,11 @@ namespace LegacyApp
 
             if (!CorrectAge(dateOfBirth))
                 return false;
-            
 
-            var user = new User(string firstName, string lastName, string email, DateTime dateOfBirth, int clientId)
+
+            var user = new User(firstName, lastName, email, dateOfBirth, clientId);
+            if (!user.IsCorrectLimit())
+                return false;
 
             UserDataAccess.AddUser(user);
             return true;

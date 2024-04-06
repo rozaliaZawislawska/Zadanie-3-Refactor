@@ -28,14 +28,14 @@ public class CorrectDataFormat
     {
         if (string.IsNullOrEmpty(_firstName) || string.IsNullOrEmpty(_lastName))
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
     
     private bool IsIncorrectEmailFormat()
     {
-        if (!_email.Contains("@") && !_email.Contains("."))
+        if (_email.Contains("@") && _email.Contains("."))
         {
             return false;
         }

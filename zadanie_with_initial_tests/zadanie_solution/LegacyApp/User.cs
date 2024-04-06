@@ -27,31 +27,35 @@ namespace LegacyApp
             {
                 HasCreditLimit = false;
             }
-            //TODO
             else if (client.Type == "ImportantClient")
             {
-                using (var userCreditService = new UserCreditService())
-                {
-                    int creditLimit = userCreditService.GetCreditLimit(user.LastName, user.DateOfBirth);
-                    creditLimit = creditLimit * 2;
-                    user.CreditLimit = creditLimit;
-                }
+                CreditLimit = getCreditLimitFromService() * 2;
             }
             else
             {
-                user.HasCreditLimit = true;
-                using (var userCreditService = new UserCreditService())
-                {
-                    int creditLimit = userCreditService.GetCreditLimit(user.LastName, user.DateOfBirth);
-                    user.CreditLimit = creditLimit;
-                }
+                HasCreditLimit = true;
+                CreditLimit = getCreditLimitFromService();
             }
             
-            if (user.HasCreditLimit && user.CreditLimit < 500)
+        }
+
+        public bool IsCorrectLimit()
+        {
+            
+            if (HasCreditLimit && CreditLimit < 500)
             {
                 return false;
             }
-            
+
+            return true;
+        }
+
+        private int getCreditLimitFromService()
+        {
+            using (var userCreditService = new UserCreditService())
+            {
+                return userCreditService.GetCreditLimit(LastName, DateOfBirth);
+            }
         }
     }
     
